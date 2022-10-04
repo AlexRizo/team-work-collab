@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://kit.fontawesome.com/d9eee5c7f7.js" crossorigin="anonymous"></script>
+    <title>Login</title>
+</head>
+<body class="bg-slate-200">
+    <main class="flex items-center justify-center h-screen">
+        <div class="bg-white rounded shadow-md w-1/4 content-center p-10">        
+            <h1 class="text-center text-3xl font-bold ">Login</h1>
+            <hr class="m-1">
+            <h2 class="text-center">Soporte: <a href="#" class="text-violet-600 font-medium">soporte@soporte.com</a></h2>
+
+            <form action="" class="flex-col mt-10">
+                <!-- <div class="mb-5"> -->
+                    <label class="block w-full font-medium" for="correo">Correo electrónico</label>
+                    <input name='email' class="mb-5 block w-full border border-gray-300 rounded-md p-2" type="email" name="email" id="email" placeholder="Correo electrónico">
+                <!-- </div> -->
+
+                <!-- <div class="mb-5"> -->
+                    <label class="block w-full font-medium" for="correo">Contraseña</label>
+                    <input name='password' class="mb-5 block w-full border border-gray-300 rounded-md p-2" type="password" name="password" id="password" placeholder="Contraseña">
+                <!-- </div> -->
+
+                <!-- <div> -->
+                    <button id="btn_login" class="mb-6 font-medium bg-violet-600 text-white p-2 w-full rounded-md hover:bg-violet-700 transition transition-in-out duration-300 transition-colors">Iniciar Sesión</button>
+                <!-- </div> -->
+
+                <!-- <div> -->
+                    <p class="text-gray-500">
+                        <i class="fa-solid fa-circle-exclamation"></i>  
+                        Si tiene problemas al iniciar sesión comuníquese con soporte.
+                    </p>
+                <!-- </div> -->
+            </form>
+        </div>
+    </main>
+
+    <script src="./js/auth.js"></script>
+</body>
+</html>
