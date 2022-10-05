@@ -2,7 +2,7 @@ const url = (window.location.hostname.includes('localhost')
             ? 'http://localhost:8080'
             : 'http://localhost:8080');
 
-const _token = localStorage.getItem('token') || '';
+const _token = localStorage.getItem('auth-token') || '';
 if (_token && _token.length > 10) {
     window.location = url + '/dashboard'
 }
@@ -24,7 +24,9 @@ form.addEventListener('submit', (ev) => {
     fetch(url + '/auth/login', {
         method: 'POST',
         body: JSON.stringify(formData),
-        headers: {'Content-Type': 'application/json'}
+        headers: {
+            'Content-Type': 'application/json'
+        }
     })
     .then(resp => resp.json())
     .then(({msg, errors, token}) => {
@@ -32,7 +34,7 @@ form.addEventListener('submit', (ev) => {
             alert(msg);
             return console.log(errors);
         }
-        localStorage.setItem('token', token);
+        localStorage.setItem('auth-token', token);
         window.location = url + '/dashboard';
     })
     .catch(err => {

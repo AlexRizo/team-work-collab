@@ -41,3 +41,15 @@ export const login = async(req, res) => {
         });
     }
 }
+
+export const renewToken = async(req, res) => {
+    const { user } = req;
+
+    // Generar JWT;
+    const token = await generateJWT(user.id);
+
+    res.json({
+        user,
+        token
+    })
+}
