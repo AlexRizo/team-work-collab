@@ -4,6 +4,8 @@ import mdlwValidateJWT from "../middlewares/validate-jwt.js";
 
 const router = Router();
 
-router.get('/', authVerify)
+router.get('/', (req, res) => {
+    res.render('index');
+})
 
 export default router;

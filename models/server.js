@@ -1,5 +1,4 @@
 import express from 'express';
-import expressLayouts from 'express-ejs-layouts';
 import cors from "cors";
 import path from 'path';
 import http from 'http'
@@ -11,6 +10,7 @@ import userRoutes from '../routes/users.js'
 import authRoutes from '../routes/auth.js'
 import dashboardRoutes from '../routes/dashboard.js'
 import socketController from '../sockets/controller.js';
+import expressLayouts from 'express-ejs-layouts';
 
 
 const __filename = fileURLToPath(import.meta.url);
@@ -30,8 +30,8 @@ class Server {
 
         this.dbConnection();
         this.middlewares();
-        this.routes();
         this.layouts();
+        this.routes();
         this.sockets();
     }
 
@@ -66,8 +66,8 @@ class Server {
     }
 
     layouts() {
-        this.app.set('view engine', 'ejs');
         this.app.use(expressLayouts);
+        this.app.set('view engine', 'ejs');
     }
     
     sockets() {
