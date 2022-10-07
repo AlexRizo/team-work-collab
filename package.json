@@ -5,7 +5,10 @@
   "main": "app.js",
   "type": "module",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build-tailwind": "tailwindcss build -i ./tailwind.css -o ./public/assets/css/argon-dashboard-tailwind.css",
+    "build-tw": "tailwindcss build -i ./tailwind.css -o ./public/assets/css/argon-dashboard-tailwind.css --watch",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node app"
   },
   "keywords": [],
   "author": "",
@@ -27,5 +30,11 @@
     "mysql2": "^2.3.3",
     "sequelize": "^6.23.2",
     "socket.io": "^4.5.2"
+  },
+  "devDependencies": {
+    "autoprefixer": "^10.4.12",
+    "postcss": "^8.4.17",
+    "postcss-cli": "^10.0.0",
+    "tailwindcss": "^3.1.8"
   }
 }

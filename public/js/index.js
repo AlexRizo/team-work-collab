@@ -49,3 +49,17 @@ const main = async() => {
 }
 
 main();
+
+document.addEventListener('DOMContentLoaded', function() {
+    var calendarEl = document.getElementById('calendar');
+    var calendar = new FullCalendar.Calendar(calendarEl, {
+    locale: 'es',
+    initialView: 'dayGridMonth',
+    headerToolbar: {
+        left: 'prev, next, today',
+        center: 'title',
+        right: 'dayGridMonth, timeGridWeek, listWeek'
+    }
+    });
+    calendar.render();
+});
