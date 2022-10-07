@@ -1,5 +1,23 @@
-<div>
-    <h1>Calendario</h1>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.3/main.min.css">
+
+<div class="relative z-0 flex flex-col min-w-0 p-3 break-words bg-white border-0 my-4 shadow-xl rounded-2xl bg-clip-border dark:shadow-none dark:bg-slate-850">
+    <h1 class="dark:text-white transition transition-in-out duration-300 transition-colors">Calendario</h1>
+    <hr class="h-px mt-0 bg-transparent bg-gradient-to-r from-transparent via-black/40 to-transparent dark:bg-gradient-to-r dark:from-transparent dark:via-white dark:to-transparent">    
+    <div data-toggle="calendar" id="calendar"></div>
 </div>
 
 <script src="/js/index.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.3/main.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.3/locales-all.min.js"></script>
+<script>
+
+document.addEventListener('DOMContentLoaded', function() {
+    var calendarEl = document.getElementById('calendar');
+    var calendar = new FullCalendar.Calendar(calendarEl, {
+    locale: 'es',
+    initialView: 'dayGridMonth'
+    });
+    calendar.render();
+});
+
+</script>
