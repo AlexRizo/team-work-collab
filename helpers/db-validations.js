@@ -1,4 +1,5 @@
 import Role from '../models/role.js';
+import Team from '../models/team.js';
 import User from '../models/user.js';
 
 export const validRol = async(role = '') => {
@@ -22,5 +23,15 @@ export const emailExist = async(email = '') => {
 
     if (dbEmail) {
         throw new Error('Ya existe una cuenta con esa dirección de correo');
+    }
+}
+
+export const teamExist = async(team = '') => {
+    const dbTeam = await Team.findOne({
+        where: { team_name:team }
+    });
+
+    if (dbTeam) {
+        throw new Error('Ya existe equipo con ese nombre');
     }
 }
