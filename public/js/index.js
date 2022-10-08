@@ -6,6 +6,14 @@ let user = null;
 let socket = null;
 
 // Referencias HTML;
+const btnOpenModal = document.getElementById('openModal');
+const modalComponent = document.getElementById('modalComponent');
+const modalContainer = document.getElementById('modalContainer');
+const bntCreateEvent = document.getElementById('createEvent');
+const btnCloseModal = document.getElementById('closeModal');
+
+
+
 
 
 const validarJWT = async() => {
@@ -63,3 +71,21 @@ document.addEventListener('DOMContentLoaded', function() {
     });
     calendar.render();
 });
+
+btnOpenModal.addEventListener('click', () => openModal());
+
+btnCloseModal.addEventListener('click', () => closeModal());
+
+const openModal = () => {
+    showAndHide(modalComponent, [], [])
+    showAndHide(modalContainer, [], [])
+}
+
+const closeModal = () => {
+
+}
+
+const showAndHide = (element, classesToAdd, classesToRemove) => {
+    element.classList.remove(...classesToRemove);
+    element.classList.add(...classesToAdd);
+}

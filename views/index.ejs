@@ -4,4 +4,36 @@
     <div data-toggle="calendar" id="calendar"></div>
 </div>
 
+<button id="openModal" class="bg-blue-600 text-white p-3">Open</button>
+
+<div id="modalComponent" class="fixed inset-0 z-990 hidden">
+    <div class="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
+        <div class="fixed inset-0 bg-gray-700 bg-opacity-70">
+
+        </div>
+        <div class="hidden sm:inline-block sm:align-middle sm:h-screen"></div>
+        <div id="modalContainer" class="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg w-full">
+            <div class="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
+                <div class="sm:flex sm:items-center sm:justify-center">
+                    <!-- <div class="mx-auto flex-shrink-0 flex items-center justify-center w-12 h-12 rounded-full bg-violet-300 sm:mx-0 sm:h-10 sm:w-10">
+
+                    </div> -->
+                    <div class="text-center mt-3 sm:mt-0 sm:text-left">
+                        <h3 class="text-lg font-medium">Crear tarea</h3>
+                        <div class="mt-2">
+                            <p class="text-gray-500 text-sm">Llena los campos</p>
+                            <input type="text" name="eventName" id="eventName" class="border-gray-500 w-full p-4 my-4 border-2 rounded-md" placeholder="Nombre de la Tarea">
+                            <input type="date" name="date" id="date" class="border-gray-500 w-full p-4 my-4 border-2 rounded-md">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
+                <button id="createEvent" class="w-full inline-flex justify-center rounded-md border-transparent shadow-md px-4 py-2 bg-violet-400 font-medium text-white hover:bg-gray focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm">Crear</button>
+                <button id="closeModal" class="w-full inline-flex justify-center rounded-md border-gray-500 shadow-md px-4 py-2 bg-white font-medium text-gray-700 hover:bg-gray focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 mt-3 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm">Cancelar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 <script src="/js/index.js"></script>
