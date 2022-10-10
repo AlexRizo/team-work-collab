@@ -1,5 +1,6 @@
-import { Model, DataTypes } from 'sequelize';
+import { Model, DataTypes, Sequelize } from 'sequelize';
 import sequelize from '../db/connection.js';
+import Team from './team.js';
 
 class User extends Model {
     // name;
@@ -36,11 +37,23 @@ User.init(
     type: new DataTypes.BOOLEAN,
     allowNull: false,
     },
+    teamId: { 
+        type: DataTypes.BIGINT(11), 
+        field: 'teamId',
+        unique: false, 
+        references: {
+          model: 'Team',
+          key: 'id'
+        },
+    }
 },
 {
     tableName: 'users',
     sequelize, // passing the `sequelize` instance is required
 },
 );
+
+Team.hasMany(User, { foreignKey:'teamId', targetKey:'id', as:'Team' });
+User.belongsTo(Team);
 
 export default User;

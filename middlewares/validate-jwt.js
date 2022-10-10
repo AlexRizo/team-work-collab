@@ -1,4 +1,5 @@
 import jwt from "jsonwebtoken";
+import Team from "../models/team.js";
 import User from "../models/user.js";
 
 const mdlwValidateJWT = async(req, res, next) => {
@@ -13,7 +14,7 @@ const mdlwValidateJWT = async(req, res, next) => {
     try {
         const { id } = jwt.verify(token, process.env.SECRETORPRIVATEKEY);
 
-        const user = await User.findOne({ where: { id } });
+        const user = await User.findByPk(id);
 
         if (!user || !user.status) {
             return res.status(404).json({
@@ -21,6 +22,17 @@ const mdlwValidateJWT = async(req, res, next) => {
             });
         }
 
+        const team = await Team.findByPk(user.teamId);
+
+        if (!team) {
+            return res.status(404).json({
+                msg: 'Usuario sin equipo'
+            });
+        }
+
+        console.log(team);
+        
+        req.team = team;
         req.user = user;
         next();
     } catch (error) {

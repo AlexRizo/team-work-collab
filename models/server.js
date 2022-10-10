@@ -7,10 +7,11 @@ import {fileURLToPath, URL} from 'url';
 
 import db from '../db/connection.js';
 
-import userRoutes from '../routes/users.js'
+import userRoutes from '../routes/users.js';
 import teamRoutes from '../routes/teams.js';
-import authRoutes from '../routes/auth.js'
-import dashboardRoutes from '../routes/dashboard.js'
+import authRoutes from '../routes/auth.js';
+import dashboardRoutes from '../routes/dashboard.js';
+import profileRoutes from '../routes/profile.js';
 
 import socketController from '../sockets/controller.js';
 import expressLayouts from 'express-ejs-layouts';
@@ -29,6 +30,7 @@ class Server {
             users: '/manage/user',
             auth: '/auth',
             dashboard: '/dashboard',
+            profile: '/profile',
             teams: '/manage/team'
         };
 
@@ -60,6 +62,7 @@ class Server {
         this.app.use(this.paths.auth, authRoutes);
 
         this.app.use(this.paths.dashboard, dashboardRoutes);
+        this.app.use(this.paths.profile, profileRoutes);
     
         // this.app.get('/dashboard', (req, res) => {
         //     res.sendFile(path.join(__dirname, '../public/dashboard', 'index.html'));

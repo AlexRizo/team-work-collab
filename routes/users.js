@@ -20,7 +20,7 @@ router.post('/', [
 
 router.put('/:id', [
     mdlwValidateJWT,
-    check('password', 'La contraseña debe ser mayor a 5 caracteres.').isLength({min: 6}),
+    // check('password', 'La contraseña debe ser mayor a 5 caracteres.').isLength({min: 6}),
     check('role').custom(validRol),
     validateFields
 ], updateUser);

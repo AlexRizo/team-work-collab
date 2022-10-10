@@ -2,7 +2,7 @@ import { encrypt } from "../helpers/handle-bcryptjs.js";
 import User from "../models/user.js";
 
 export const createUser = async(req, res) => {
-    const {name, email, password, role } = req.body;
+    const {name, email, password, role, teamId } = req.body;
 
     try {
         const hash = encrypt(password);
@@ -12,7 +12,8 @@ export const createUser = async(req, res) => {
             email,
             password: hash,
             role,
-            status: true
+            status: true.valueOf,
+            teamId
         });
 
         res.json(user);
@@ -25,7 +26,7 @@ export const createUser = async(req, res) => {
 }
 
 export const updateUser = async(req, res) => {
-    const { name, password, email, status, ...rest} = req.body;
+    const { name, password, email, status, teamId, ...rest} = req.body;
     const { id } = req.params;
 
     const emailRegEx = /^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
@@ -68,6 +69,10 @@ export const updateUser = async(req, res) => {
 
     if (status) {
         res.status = status;
+    }
+
+    if (teamId) {
+        rest.teamId = teamId
     }
 
     await User.update(rest, {

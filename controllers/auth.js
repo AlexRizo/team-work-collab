@@ -9,15 +9,12 @@ export const login = async(req, res) => {
         const user = await User.findOne({
             where: { email }
         });
+
+        console.log(user);
+
         if (!user) {
             return res.status(400).json({
                 msg: 'Correo / Contraseña incorrectos. - correo'
-            });
-        }
-
-        if (!user.status) {
-            return res.status(404).json({
-                msg: 'Cuenta bloqueada'
             });
         }
 
@@ -25,6 +22,12 @@ export const login = async(req, res) => {
         if (!validPass) {
             return res.status(400).json({
                 msg: 'Correo / Contraseña incorrectos. - contraseña'
+            });
+        }
+
+        if (!user.status) {
+            return res.status(400).json({
+                msg: 'Cuenta bloqueada'
             });
         }
 
@@ -43,13 +46,14 @@ export const login = async(req, res) => {
 }
 
 export const renewToken = async(req, res) => {
-    const { user } = req;
+    const { user, team } = req;
 
     // Generar JWT;
     const token = await generateJWT(user.id);
 
     res.json({
         user,
+        team,
         token
     })
 }

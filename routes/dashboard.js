@@ -1,6 +1,6 @@
 import { Router } from "express";
-import { authVerify } from "../controllers/dashboard.js";
-import mdlwValidateJWT from "../middlewares/validate-jwt.js";
+// import { authVerify } from "../controllers/dashboard.js";
+// import mdlwValidateJWT from "../middlewares/validate-jwt.js";
 
 const router = Router();
 
