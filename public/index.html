@@ -5,10 +5,11 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.x.x/dist/alpine.min.js" defer></script>
     <script src="https://kit.fontawesome.com/d9eee5c7f7.js" crossorigin="anonymous"></script>
     <title>Login</title>
 </head>
-<body class="bg-slate-200">
+<body class="bg-slate-200" x-data="{ showModal1: false }">
     <main class="flex items-center justify-center h-screen">
         <div class="bg-white rounded shadow-md w-1/4 content-center p-10">        
             <h1 class="text-center text-3xl font-bold ">Login</h1>
@@ -27,7 +28,7 @@
                 <!-- </div> -->
 
                 <!-- <div> -->
-                    <button id="btn_login" class="mb-6 font-medium bg-violet-600 text-white p-2 w-full rounded-md hover:bg-violet-700 transition transition-in-out duration-300 transition-colors">Iniciar Sesión</button>
+                    <button id="btn_login" class="mb-6 font-medium bg-violet-600 text-white p-2 w-full rounded-md hover:bg-violet-700 transition-in-out duration-300 transition-colors" @click="showModal1 = true">Iniciar Sesión</button>
                 <!-- </div> -->
 
                 <!-- <div> -->
@@ -39,6 +40,11 @@
             </form>
         </div>
     </main>
+    
+    <!-- Validate Modal -->
+    <div id="modal">
+
+    </div>
 
     <script src="./js/auth.js"></script>
 </body>

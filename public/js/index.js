@@ -31,7 +31,6 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 
-btnOpenModal.addEventListener('click', () => openModal());
 
 btnCloseModal.addEventListener('click', () => closeModal());
 

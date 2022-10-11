@@ -55,5 +55,5 @@ export const renewToken = async(req, res) => {
         user,
         team,
         token
-    })
+    });
 }

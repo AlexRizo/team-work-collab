@@ -35,3 +35,13 @@ export const teamExist = async(team = '') => {
         throw new Error('Ya existe equipo con ese nombre');
     }
 }
+
+export const validModels = (model = '', models = []) => {
+    const isValid = models.includes(model);
+
+    if (!isValid) {
+        throw new Error('Modelo no permitido');
+    }
+
+    return true;
+}

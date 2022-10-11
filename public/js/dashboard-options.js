@@ -2,6 +2,10 @@ const url = (window.location.hostname.includes('localhost')
             ? 'http://localhost:8080'
             : 'http://localhost:8080');
 
+const currentPage = window.location.hostname.includes('dashboard') ? 'Dashboard'
+                  : window.location.hostname.includes('profile')   ? 'Profile'
+                  : window.location.hostname.includes('admin')     ? 'Admin'     : '';
+
 // Referencias HTML;
 const menuToggle = document.getElementById('toggleMenu');
 const menu = document.getElementById('menuSideNav');
@@ -13,18 +17,21 @@ const teamName = document.getElementById('teamName') || 'null';
 const bgImage = document.getElementById('bgImage'); 
 const bgColor = document.getElementById('bgColor');
 
-btnLogOut.onclick = () => {
-    localStorage.removeItem('auth-token');
-    location.reload();
-}
-
-menuToggle.onclick = () => {
-    menu.classList.toggle('-translate-x-full')
-}
+const adminPage = document.getElementById('adminPage');
 
 let user = null;
 let team = null;
 let socket = null;
+
+btnLogOut.onclick = () => {
+    localStorage.removeItem('auth-token');
+    location.reload();
+}
+    
+menuToggle.onclick = () => {
+    menu.classList.toggle('-translate-x-full')
+}
+
 
 const validarJWT = async() => {
     const token = localStorage.getItem('auth-token') || '';
@@ -48,8 +55,12 @@ const validarJWT = async() => {
     username.innerText = user.name;
     teamName.innerText = team.team_name;
 
-    bgImage.classList.add("bg-[url('https://scontent.fgdl3-1.fna.fbcdn.net/v/t1.18169-9/12715374_10153546846853577_5174180407451521430_n.jpg?_nc_cat=111&ccb=1-7&_nc_sid=19026a&_nc_ohc=eDRPRBiT2B0AX9MJjMA&_nc_ht=scontent.fgdl3-1.fna&oh=00_AT-GsxBea6aUr-pqs0G7vshgbf0FqBT9udJfcc8rhd1scQ&oe=636A7842')]");
+    bgImage.setAttribute('style', `background-image: url(${team.img})`);
     bgColor.classList.add(`bg-${team.color}-500`);
+
+    if (user.role != 'ADMIN_ROLE') {
+        adminPage.innerHTML = '';
+    }
     
     await connectSocket();
 }

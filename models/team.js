@@ -14,6 +14,14 @@ Team.init(
     type: new DataTypes.STRING(255),
     allowNull: false,
     },
+    color: {
+        type: new DataTypes.STRING(255),
+        allowNull: false,
+    },
+    img: {
+        type: new DataTypes.STRING(255),
+        allowNull: false,
+    },
 },
 {
     tableName: 'teams',
