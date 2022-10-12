@@ -32,7 +32,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
 
 
-btnCloseModal.addEventListener('click', () => closeModal());
+btnCloseModal.addEventListener ('click', () => closeModal());
 
 const openModal = () => {
     showAndHide(modalComponent, ['block'], ['hidden']);

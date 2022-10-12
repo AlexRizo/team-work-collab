@@ -2,17 +2,26 @@ const url = (window.location.hostname.includes('localhost')
             ? 'http://localhost:8080'
             : 'http://localhost:8080');
 
-const currentPage = window.location.hostname.includes('dashboard') ? 'Dashboard'
-                  : window.location.hostname.includes('profile')   ? 'Profile'
-                  : window.location.hostname.includes('admin')     ? 'Admin'     : '';
+const currentPage = (window.location.pathname.includes('dashboard')) ? 'dashboard'
+                  : (window.location.pathname.includes('profile'))   ? 'perfil'
+                  : (window.location.pathname.includes('admin'))     ? 'admin'     : '???';
 
 // Referencias HTML;
 const menuToggle = document.getElementById('toggleMenu');
 const menu = document.getElementById('menuSideNav');
+
+const btnHome = document.getElementById('btnHome');
+const btnCreateEvent = document.getElementById('btnCreateEvent');
+const btnAdmin = document.getElementById('btnAdmin');
+const btnProfile = document.getElementById('btnProfile');
 const btnLogOut = document.getElementById('btnLogOut');
+
 
 const username = document.getElementById('username') || 'null';
 const teamName = document.getElementById('teamName') || 'null';
+
+const pageSubTitle = document.getElementById('pageSubTitle');
+const pageTitle = document.getElementById('pageTitle');
 
 const bgImage = document.getElementById('bgImage'); 
 const bgColor = document.getElementById('bgColor');
@@ -32,6 +41,23 @@ menuToggle.onclick = () => {
     menu.classList.toggle('-translate-x-full')
 }
 
+adminPage.addEventListener('click', () => {
+    const token = localStorage.getItem('auth-token');
+    
+    window.location = url + `/admin?token=${token}`;
+})
+
+const quitSelect = (classes = ['bg-blue-500/13', 'font-semibold']) => {
+    btnHome.classList.remove(...classes)
+    btnCreateEvent.classList.remove(...classes)
+    btnAdmin.classList.remove(...classes)
+    btnProfile.classList.remove(...classes)
+    btnLogOut.classList.remove(...classes)
+}
+
+const select = (element = '', classes = ['bg-blue-500/13', 'font-semibold']) => {
+    element.classList.add(...classes)
+}
 
 const validarJWT = async() => {
     const token = localStorage.getItem('auth-token') || '';
@@ -60,6 +86,36 @@ const validarJWT = async() => {
 
     if (user.role != 'ADMIN_ROLE') {
         adminPage.innerHTML = '';
+    }
+
+    switch (currentPage) {
+        case 'dashboard':
+            quitSelect();
+            pageSubTitle.innerText = currentPage
+            pageTitle.innerText = currentPage
+            select(btnHome)
+        break;
+
+        case 'perfil':
+            quitSelect();
+            pageSubTitle.innerText = currentPage
+            pageTitle.innerText = currentPage
+            select(btnProfile)
+        break;
+
+        case 'admin':
+            quitSelect();
+            pageSubTitle.innerText = currentPage
+            pageTitle.innerText = currentPage
+            select(btnAdmin)
+        break;
+    
+        default:
+            quitSelect();
+            pageSubTitle.innerText = currentPage
+            pageTitle.innerText = currentPage
+            select(btnAdmin)
+            break;
     }
     
     await connectSocket();

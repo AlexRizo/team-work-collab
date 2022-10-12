@@ -12,7 +12,7 @@ export const createUser = async(req, res) => {
             email,
             password: hash,
             role,
-            status: true.valueOf,
+            status: true,
             teamId
         });
 

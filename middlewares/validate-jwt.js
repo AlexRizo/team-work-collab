@@ -29,8 +29,6 @@ const mdlwValidateJWT = async(req, res, next) => {
                 msg: 'Usuario sin equipo'
             });
         }
-
-        console.log(team);
         
         req.team = team;
         req.user = user;
