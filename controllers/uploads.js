@@ -1,5 +1,6 @@
 import { v2 as cloudinary } from 'cloudinary';
 import Team from '../models/team.js';
+import User from '../models/user.js';
 import * as dotenv from 'dotenv'
 
 dotenv.config()
@@ -27,6 +28,16 @@ export const manageImageCloudinary = async(req, res) => {
                 });
             }
         break;
+
+        case 'users':
+            model = await User.findByPk(id);
+
+            if (!model) {
+                return res.status(400).json({
+                    msg: `Modelo no encontrado (${id}).`
+                });
+            }
+        break;
     
         default:
             return res.status(500).json({
@@ -34,7 +45,7 @@ export const manageImageCloudinary = async(req, res) => {
             });
     }
 
-    // TODO: delete old file;
+    // TODO: update or create;
     if (model.img) {
         const nameArr = model.img.split('/');
         const name = nameArr[nameArr.length - 1];
@@ -49,5 +60,5 @@ export const manageImageCloudinary = async(req, res) => {
 
     await model.save();
 
-    res.json(model);
+    res.json(model.img);
 }

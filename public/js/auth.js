@@ -10,7 +10,6 @@ if (_token && _token.length > 10) {
 // References HTML;
 const form = document.querySelector('form');
 
-
 const formData = {};
 
 setTimeout(() => {
@@ -51,7 +50,7 @@ setTimeout(() => {
         </header>
         <main class="p-2 text-center">
           <p id="modalMsg">
-              Error?
+            Ha ocurrido un error. Inténtalo de nuevo.
           </p>
         </main>
         <footer class="flex justify-center p-2">
@@ -100,6 +99,6 @@ form.addEventListener('submit', (ev) => {
     });
 });
 
-const modalErrors = (error) => {
+const modalErrors = (error = 'Ha ocurrido un error. Inténtalo de nuevo.') => {
     modalMsg.innerText = error;
-}
+} 

@@ -9,7 +9,7 @@ const router = Router();
 
 router.put('/:model/:id', [
     validateFile,
-    check('model').custom(m => validModels(m, ['teams'])),
+    check('model').custom(m => validModels(m, ['teams', 'users'])),
     validateFields
 ], manageImageCloudinary);
 

@@ -1,8 +1,20 @@
 import { encrypt } from "../helpers/handle-bcryptjs.js";
 import User from "../models/user.js";
+import { v2 as cloudinary } from 'cloudinary';
+import * as dotenv from 'dotenv'
+
+dotenv.config()
+
+cloudinary.config({
+    cloud_name: process.env.CLOUDINARY_NAME, 
+    api_key: process.env.CLOUDINARY_API_KEY,
+    api_secret: process.env.CLOUDINARY_API_SECRET,
+    secure: true
+});
 
 export const createUser = async(req, res) => {
-    const {name, email, password, role, teamId } = req.body;
+    const {name, email, password, role, teamId} = req.body;
+    // const { tempFilePath } = req.files;
 
     try {
         const hash = encrypt(password);
@@ -26,8 +38,13 @@ export const createUser = async(req, res) => {
 }
 
 export const updateUser = async(req, res) => {
-    const { name, password, email, status, teamId, ...rest} = req.body;
+    const { name, password, email, status, teamId, img, ...rest} = req.body;
     const { id } = req.params;
+
+    
+    if (img) {
+        console.log(img, name);
+    }
 
     const emailRegEx = /^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
 
@@ -79,7 +96,7 @@ export const updateUser = async(req, res) => {
         where: { id }
     });
 
-    res.json(rest);
+    res.json(rest); 
 }
 
 export const deleteUser = async(req, res) => {
@@ -108,3 +125,52 @@ export const deleteUser = async(req, res) => {
         user
     });
 };
+
+
+const updateOrCreateImg = async(img) => {
+    let model;
+
+    switch (paramModel) {
+        case 'teams':
+            model = await Team.findByPk(id);
+
+            if (!model) {
+                return res.status(400).json({
+                    msg: `Modelo no encontrado (${id}).`
+                });
+            }
+        break;
+
+        case 'users':
+            model = await User.findByPk(id);
+
+            if (!model) {
+                return res.status(400).json({
+                    msg: `Modelo no encontrado (${id}).`
+                });
+            }
+        break;
+    
+        default:
+            return res.status(500).json({
+                msg: 'watafak'
+            });
+    }
+
+    // TODO: update or create;
+    if (model.img) {
+        const nameArr = model.img.split('/');
+        const name = nameArr[nameArr.length - 1];
+        const [ public_id ] = name.split('.');
+
+        cloudinary.uploader.destroy(public_id);
+    }
+
+    const { secure_url } = await cloudinary.uploader.upload(tempFilePath);
+
+    model.img = secure_url;
+
+    await model.save();
+
+    res.json(model.img);
+}

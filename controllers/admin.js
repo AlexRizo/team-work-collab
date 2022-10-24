@@ -15,5 +15,5 @@ export const getUsers = async(req, res) => {
     const teams = await Team.findAll();
     const roles = await Role.findAll();
     
-    res.render('admin', {users, teams, roles})
+    res.render('admin', {teams, roles})
 }

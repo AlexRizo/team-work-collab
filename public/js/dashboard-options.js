@@ -16,21 +16,19 @@ const btnAdmin = document.getElementById('btnAdmin');
 const btnProfile = document.getElementById('btnProfile');
 const btnLogOut = document.getElementById('btnLogOut');
 
-
-const username = document.getElementById('username') || 'null';
 const teamName = document.getElementById('teamName') || 'null';
 
 const pageSubTitle = document.getElementById('pageSubTitle');
 const pageTitle = document.getElementById('pageTitle');
 
-const bgImage = document.getElementById('bgImage'); 
+const bgImage = document.getElementById('bgImage');
 const bgColor = document.getElementById('bgColor');
 
 const adminPage = document.getElementById('adminPage');
 
 let user = null;
 let team = null;
-let socket = null;
+var socket = null;
 
 btnLogOut.onclick = () => {
     localStorage.removeItem('auth-token');
@@ -43,9 +41,17 @@ menuToggle.onclick = () => {
 
 adminPage.addEventListener('click', () => {
     const token = localStorage.getItem('auth-token');
-    
     window.location = url + `/admin?token=${token}`;
 })
+
+// btnProfile.addEventListener('click', async() => {
+//     const token = localStorage.getItem('auth-token');
+
+//     await fetch(url + '/profile', {
+//         headers: { 'auth-token': token }
+//     })
+    
+// })
 
 const quitSelect = (classes = ['bg-blue-500/13', 'font-semibold']) => {
     btnHome.classList.remove(...classes)
@@ -78,11 +84,12 @@ const validarJWT = async() => {
     document.title = user.name;
 
     // InnerText //:
-    username.innerText = user.name;
+    // username.innerText = user.name;
+    // (userImg === null ? true : userImg.setAttribute('src', user.img));
     teamName.innerText = team.team_name;
 
-    bgImage.setAttribute('style', `background-image: url(${team.img})`);
-    bgColor.classList.add(`bg-${team.color}-500`);
+    bgImage.setAttribute('style', `background-image: url(${ team.img })`);
+    bgColor.classList.add(`bg-${ team.color }-500`);
 
     if (user.role != 'ADMIN_ROLE') {
         adminPage.innerHTML = '';
@@ -135,6 +142,10 @@ const connectSocket = async() => {
     socket.on('disconnect', () => {
         console.log('Socket offline');
     })
+}
+
+const getCurrentUser = () => {
+
 }
 
 const main = async() => {

@@ -37,6 +37,10 @@ User.init(
     type: new DataTypes.BOOLEAN,
     allowNull: false,
     },
+    img: {
+        type: new DataTypes.STRING(255),
+        allowNull: false,
+    },
     teamId: { 
         type: DataTypes.BIGINT(11), 
         field: 'teamId',

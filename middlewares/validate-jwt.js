@@ -7,7 +7,7 @@ const mdlwValidateJWT = async(req, res, next) => {
 
     if (!token) {
         return res.status(400).json({
-            msg: 'El token es obligatorio.'
+            msg: 'El token es obligatorio.',
         });
     }
 
@@ -32,6 +32,7 @@ const mdlwValidateJWT = async(req, res, next) => {
         
         req.team = team;
         req.user = user;
+        
         next();
     } catch (error) {
         console.log(error);
