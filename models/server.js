@@ -42,7 +42,7 @@ class Server {
             team:      '/team',
             teams:     '/manage/team',
             uploads:   '/manage/uploads',
-            events:    '/events',
+            events:    '/event',
         };
 
         this.dbConnection();

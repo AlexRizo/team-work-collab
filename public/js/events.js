@@ -1,7 +1,7 @@
 const evTy = document.querySelector('select');
 const form = document.querySelector('form');
 const btnCreate = document.getElementById('btnCreateEv');
-const inputs = document.querySelectorAll('input');
+const inputs = document.querySelectorAll('#input');
 const specialIn = document.getElementById('specialIn');
 
 const formData = new FormData();
@@ -24,11 +24,28 @@ evTy.addEventListener('change', (ev) => {
 form.addEventListener('submit', (ev) => {
     ev.preventDefault();
 
-    for (let el of specialIn.children) {
-        if (el.name.length > 0) {
-            formData[el.name] = el.value;
+    for (let inp of inputs) {
+        if (inp.name.length > 0) {
+            formData[inp.name] = inp.value;
         }
     }
 
-    console.log(formData);
+    fetch(url + '/event/create', {
+        method: 'POST',
+        body: JSON.stringify(formData),
+        headers: {
+            'Content-Type': 'application/json',
+            'tkn': localStorage.getItem('auth-token')
+        }
+    })
+    .then(resp => resp.json())
+    .then(({errors, data}) => {
+        if (errors) {
+            console.log(errors);
+        }
+        if (data) {
+            console.log(data);
+        }
+    })
+    .catch(err => console.warn(err));
 })
