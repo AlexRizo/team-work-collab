@@ -1,0 +1,25 @@
+<section class="w-full bg-white rounded-md shadow-sm p-8 ">
+    <div>
+        <h1>Añadir nueva tarea</h1>
+    </div>
+    <form class="flex flex-row">
+        <div class="w-1/5 flex flex-col mt-8 mr-8">
+            <input id="input" type="text" name="name" class="border border-gray-300 rounded p-2 mb-4 focus:outline-none focus:ring-1 focus:ring-offset-indigo-200" placeholder="Tarea">
+            <input id="input" type="date" name="date" class="border border-gray-300 rounded p-2 mb-4 focus:outline-none focus:ring-1 focus:ring-offset-indigo-200">
+            <select name="type" id="input" class="border border-gray-300 rounded p-2 mb-4 focus:outline-none focus:ring-1 focus:ring-offset-indigo-200">
+                <option value="0">Diseño</option>
+                <option value="0">Evento</option>
+                <option value="0">Publicación</option>
+            </select>
+            <textarea id="input" name="description" id="" cols="30" rows="7" placeholder="Instrucciones..." class="border border-gray-300 rounded p-2 mb-4 focus:outline-none focus:ring-1 focus:ring-offset-indigo-200"></textarea>
+        </div>
+        <div id="specialIn" class="w-1/5 flex flex-col mt-8 mx-8">
+            <input id="input" disabled type="time" name="time" class="border border-gray-300 rounded p-2 mb-4 focus:outline-none focus:ring-1 focus:ring-offset-indigo-200" placeholder="Tarea">
+            <input id="input" disabled type="text" name="location" class="border border-gray-300 rounded p-2 mb-4 focus:outline-none focus:ring-1 focus:ring-offset-indigo-200" placeholder="Ubicación">
+            <input id="input" disabled type="text" name="result" class="border border-gray-300 rounded p-2 mb-4 focus:outline-none focus:ring-1 focus:ring-offset-indigo-200" placeholder="Material requerido">
+        </div>
+    </form>
+    <button id="btnCreateEv" type="submit" class=" w-1/5 bg-indigo-500 focus:outline-none focus:ring-1 focus:ring-offset-indigo-200 text-white rounded-md p-2">Enviar</button>
+</section>
+
+<script src="/js/events.js"></script>

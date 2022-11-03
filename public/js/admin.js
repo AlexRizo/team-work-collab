@@ -8,7 +8,6 @@ const usersTable = document.getElementById('usersTable');
 
 
 const formData = {};
-var socket = null
 
 socket = io({
     'extraHeaders': {

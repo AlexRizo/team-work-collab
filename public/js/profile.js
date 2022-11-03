@@ -5,6 +5,8 @@ const profile = (async() => {
     const inName = document.getElementById('name');
     const inEmail = document.getElementById('email');
 
+    const teamImg = document.getElementById('teamImg');
+
     const btnUpdate = document.getElementById('btnUpdate');
 
     const formIn = document.querySelectorAll('.input');
@@ -12,13 +14,11 @@ const profile = (async() => {
     let $user;
 
     btnUpdate.addEventListener('click', () => {
-        const formData = {};
+        const formData = new FormData();
 
         formIn.forEach(el => {
             formData[el.name] = el.value;
         });
-
-        console.log({formData});
         
         fetch(url + '/manage/user/' + $user.id, {
             method: 'PUT',
@@ -26,14 +26,16 @@ const profile = (async() => {
             headers: {
                 'Content-Type': 'application/json',
                 'auth-token': localStorage.getItem('auth-token') || '',
-                'id': $user.id
+                'uid': $user.id
             }
         })
         .then(resp => resp.json())
         .then(({msg, errors}) => {
             if (msg) {
-                return console.log({msg, errors});
+                console.log(msg);
+                throw console.log({errors});
             }
+
             location.reload();
         })
         .catch(err => {

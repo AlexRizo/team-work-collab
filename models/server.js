@@ -12,12 +12,14 @@ import {fileURLToPath, URL} from 'url';
 import db from '../db/connection.js';
 
 import userRoutes from '../routes/users.js';
-import teamRoutes from '../routes/teams.js';
+import teamsRoutes from '../routes/teams.js';
+import teamRoutes from '../routes/team.js';
 import authRoutes from '../routes/auth.js';
 import dashboardRoutes from '../routes/dashboard.js';
 import profileRoutes from '../routes/profile.js';
 import uploadsRouter from '../routes/uploads.js';
 import adminRoutes from '../routes/admin.js';
+import eventsRoutes from '../routes/events.js';
 
 import socketController from '../sockets/controller.js';
 
@@ -34,11 +36,13 @@ class Server {
         this.paths = {
             users:     '/manage/user',
             auth:      '/auth',
-            admin:      '/admin',
+            admin:     '/admin',
             dashboard: '/dashboard',
             profile:   '/profile',
+            team:      '/team',
             teams:     '/manage/team',
-            uploads:   '/manage/uploads'
+            uploads:   '/manage/uploads',
+            events:    '/events',
         };
 
         this.dbConnection();
@@ -71,12 +75,16 @@ class Server {
 
     routes() {
         this.app.use(this.paths.users, userRoutes);
-        this.app.use(this.paths.teams, teamRoutes);
+        this.app.use(this.paths.teams, teamsRoutes);
         
         this.app.use(this.paths.dashboard, dashboardRoutes);
         this.app.use(this.paths.profile, profileRoutes);
+
+        this.app.use(this.paths.team, teamRoutes);
         
         this.app.use(this.paths.uploads, uploadsRouter);
+
+        this.app.use(this.paths.events, eventsRoutes);
         
         this.app.use(this.paths.auth, authRoutes);
         this.app.use(this.paths.admin, adminRoutes);

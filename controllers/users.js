@@ -43,7 +43,8 @@ export const updateUser = async(req, res) => {
 
     
     if (img) {
-        console.log(img, name);
+        // await updateOrCreateImg(id, img);
+        console.log({img});
     }
 
     const emailRegEx = /^(([^<>()[\]\.,;:\s@\"]+(\.[^<>()[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i;
@@ -127,38 +128,11 @@ export const deleteUser = async(req, res) => {
 };
 
 
-const updateOrCreateImg = async(img) => {
-    let model;
-
-    switch (paramModel) {
-        case 'teams':
-            model = await Team.findByPk(id);
-
-            if (!model) {
-                return res.status(400).json({
-                    msg: `Modelo no encontrado (${id}).`
-                });
-            }
-        break;
-
-        case 'users':
-            model = await User.findByPk(id);
-
-            if (!model) {
-                return res.status(400).json({
-                    msg: `Modelo no encontrado (${id}).`
-                });
-            }
-        break;
-    
-        default:
-            return res.status(500).json({
-                msg: 'watafak'
-            });
-    }
+const updateOrCreateImg = async(id, img) => {
+    const user = User.findByPk(id)
 
     // TODO: update or create;
-    if (model.img) {
+    if (user.img) {
         const nameArr = model.img.split('/');
         const name = nameArr[nameArr.length - 1];
         const [ public_id ] = name.split('.');
@@ -166,11 +140,16 @@ const updateOrCreateImg = async(img) => {
         cloudinary.uploader.destroy(public_id);
     }
 
-    const { secure_url } = await cloudinary.uploader.upload(tempFilePath);
+    try {
+        const { secure_url } = await cloudinary.uploader.upload(img);
+        
+        model.img = secure_url;
 
-    model.img = secure_url;
+        await model.save();
 
-    await model.save();
+        return console.log('upload succefully');
 
-    res.json(model.img);
+    } catch (error) {
+        return console.log(error);        
+    }
 }

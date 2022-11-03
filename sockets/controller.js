@@ -14,6 +14,7 @@ const getUsers = async() => {
 
 const socketController = async(socket = new Socket(), io) => {
     const user = await validateJWT(socket.handshake.headers['auth-token']);
+    
     if (!user) {
         return socket.disconnect();
     }

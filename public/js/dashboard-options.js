@@ -3,7 +3,9 @@ const url = (window.location.hostname.includes('localhost')
             : 'http://localhost:8080');
 
 const currentPage = (window.location.pathname.includes('dashboard')) ? 'dashboard'
+                  : (window.location.pathname.includes('events'))   ? 'tarea'
                   : (window.location.pathname.includes('profile'))   ? 'perfil'
+                  : (window.location.pathname.includes('team'))   ? 'team'
                   : (window.location.pathname.includes('admin'))     ? 'admin'     : '???';
 
 // Referencias HTML;
@@ -11,7 +13,8 @@ const menuToggle = document.getElementById('toggleMenu');
 const menu = document.getElementById('menuSideNav');
 
 const btnHome = document.getElementById('btnHome');
-const btnCreateEvent = document.getElementById('btnCreateEvent');
+const btnEvent = document.getElementById('btnEvent');
+const btnTeam = document.getElementById('btnTeam');
 const btnAdmin = document.getElementById('btnAdmin');
 const btnProfile = document.getElementById('btnProfile');
 const btnLogOut = document.getElementById('btnLogOut');
@@ -50,12 +53,12 @@ adminPage.addEventListener('click', () => {
 //     await fetch(url + '/profile', {
 //         headers: { 'auth-token': token }
 //     })
-    
 // })
 
 const quitSelect = (classes = ['bg-blue-500/13', 'font-semibold']) => {
     btnHome.classList.remove(...classes)
-    btnCreateEvent.classList.remove(...classes)
+    btnEvent.classList.remove(...classes)
+    btnTeam.classList.remove(...classes)
     btnAdmin.classList.remove(...classes)
     btnProfile.classList.remove(...classes)
     btnLogOut.classList.remove(...classes)
@@ -82,6 +85,7 @@ const validarJWT = async() => {
     user = userDB;
     team = teamDB;
     document.title = user.name;
+    btnTeam.href = `${url}/team?tid=${team.id}&tkn=${tokenDB}`;
 
     // InnerText //:
     // username.innerText = user.name;
@@ -103,11 +107,25 @@ const validarJWT = async() => {
             select(btnHome)
         break;
 
+        case 'tarea':
+            quitSelect();
+            pageSubTitle.innerText = currentPage
+            pageTitle.innerText = currentPage
+            select(btnEvent)
+        break;
+
         case 'perfil':
             quitSelect();
             pageSubTitle.innerText = currentPage
             pageTitle.innerText = currentPage
             select(btnProfile)
+        break;
+
+        case 'team':
+            quitSelect();
+            pageSubTitle.innerText = currentPage
+            pageTitle.innerText = currentPage
+            select(btnTeam)
         break;
 
         case 'admin':
@@ -142,10 +160,6 @@ const connectSocket = async() => {
     socket.on('disconnect', () => {
         console.log('Socket offline');
     })
-}
-
-const getCurrentUser = () => {
-
 }
 
 const main = async() => {

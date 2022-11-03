@@ -39,9 +39,10 @@ User.init(
     },
     img: {
         type: new DataTypes.STRING(255),
+        defaultValue: 'https://res.cloudinary.com/dhgb3akqr/image/upload/v1666452178/default/z0scbaq9ydrw3y32tbd8.webp',
         allowNull: false,
     },
-    teamId: { 
+    teamId: {
         type: DataTypes.BIGINT(11), 
         field: 'teamId',
         unique: false, 
