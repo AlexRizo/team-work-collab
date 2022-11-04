@@ -14,9 +14,9 @@
                 <input id="input" type="text" name="title" class="border border-gray-300 rounded p-2 mb-4 focus:outline-none focus:ring-1 focus:ring-offset-indigo-200" placeholder="Tarea">
                 <input id="input" type="date" name="date" class="border border-gray-300 rounded p-2 mb-4 focus:outline-none focus:ring-1 focus:ring-offset-indigo-200">
                 <select name="type" id="input" class="border border-gray-300 rounded p-2 mb-4 focus:outline-none focus:ring-1 focus:ring-offset-indigo-200">
-                    <option value="0">Diseño</option>
-                    <option value="0">Evento</option>
-                    <option value="0">Publicación</option>
+                    <option value="1">Diseño</option>
+                    <option value="2">Evento</option>
+                    <option value="3">Publicación</option>
                 </select>
                 <textarea id="input" name="description" cols="30" rows="7" placeholder="Instrucciones..." class="border border-gray-300 rounded p-2 mb-4 focus:outline-none focus:ring-1 focus:ring-offset-indigo-200"></textarea>
             </div>
@@ -29,7 +29,7 @@
                         <div class="flex items-center">
                             <div>
                                 <label for="colorSelected" class="block font-bold mb-1">Color</label>
-                                <input id="colorSelected" id="input" type="text" placeholder="Elige un color"
+                                <input id="colorSelected" type="text" placeholder="Elige un color"
                                     class="border border-gray-300 px-2 py-2 leading-normal text-gray-700 rounded focus:outline-none focus:shadow-outline"
                                     readonly 
                                     x-model="colorSelected">

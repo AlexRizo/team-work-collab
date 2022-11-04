@@ -1,4 +1,5 @@
 import jwt from "jsonwebtoken";
+import Team from "../models/team.js";
 import User from "../models/user.js";
 
 export const generateJWT = (id = '') => {
@@ -25,7 +26,7 @@ export const validateJWT = async(token = '') => {
         }
 
         const { id } = jwt.verify(token, process.env.SECRETORPRIVATEKEY);
-        const user = await User.findByPk(id);
+        const user = await User.findByPk(id, { include: { model: Team } });
         
         if (user) {
             if (user.status) {

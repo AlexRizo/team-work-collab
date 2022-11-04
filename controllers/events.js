@@ -1,18 +1,33 @@
 import { validateJWT } from '../helpers/jwt.js';
+import Event from '../models/event.js';
 
 export const newEvent = async(req, res) => {
     
     res.render('events', {})
 }
 
+export const getEvents = async(req, res) => {
+    res.json({msg: 'events...'})
+}
+
 export const createEvent = async(req, res) => {
-    const { id, status } = await validateJWT(req.header('tkn'));
-
-    console.log(id, status);
+    const { id, status, Team } = await validateJWT(req.header('tkn'));
     
-    const data = req.body;
+    if (!status) {
+        return res.status(400);
+    }
 
-    console.log(data);
+    const { type, ...data } = req.body;
 
-    res.json({ data })
+    data.teamId = Team.id;
+    data.userId = id;
+    data.typeId = parseInt(type);
+    
+    try {
+        await Event.create(data);
+
+        return res.json({msg: 'Tarea creada exitosamente.'});
+    } catch (error) {
+        return res.status(500).json({error});
+    }
 }

@@ -20,11 +20,11 @@ Event.init(
             type: new DataTypes.STRING(255),
             allowNull: false,
         },
-        type: {
+        typeId: {
             type: new DataTypes.INTEGER,
             allowNull: false,
         },
-        type: {
+        color: {
             type: new DataTypes.STRING(255),
             allowNull: false,
         },
@@ -45,7 +45,11 @@ Event.init(
             allowNull: true,
         },
         teamId: {
-            type: new DataTypes.STRING(255),
+            type: new DataTypes.INTEGER,
+            allowNull: false,
+        },
+        userId: {
+            type: new DataTypes.INTEGER,
             allowNull: false,
         },
     },

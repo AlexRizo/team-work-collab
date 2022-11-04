@@ -3,7 +3,7 @@ const url = (window.location.hostname.includes('localhost')
             : 'http://localhost:8080');
 
 const currentPage = (window.location.pathname.includes('dashboard')) ? 'dashboard'
-                  : (window.location.pathname.includes('events'))   ? 'tarea'
+                  : (window.location.pathname.includes('event'))   ? 'tarea'
                   : (window.location.pathname.includes('profile'))   ? 'perfil'
                   : (window.location.pathname.includes('team'))   ? 'team'
                   : (window.location.pathname.includes('admin'))     ? 'admin'     : '???';
@@ -109,8 +109,8 @@ const validarJWT = async() => {
 
         case 'tarea':
             quitSelect();
-            pageSubTitle.innerText = currentPage
-            pageTitle.innerText = currentPage
+            pageSubTitle.innerText = 'Crear Tarea'
+            pageTitle.innerText = 'Tarea'
             select(btnEvent)
         break;
 

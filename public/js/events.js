@@ -3,6 +3,7 @@ const form = document.querySelector('form');
 const btnCreate = document.getElementById('btnCreateEv');
 const inputs = document.querySelectorAll('#input');
 const specialIn = document.getElementById('specialIn');
+const color = document.getElementById('colorSelected');
 
 const formData = new FormData();
 
@@ -30,6 +31,8 @@ form.addEventListener('submit', (ev) => {
         }
     }
 
+    formData.color = color.value;
+
     fetch(url + '/event/create', {
         method: 'POST',
         body: JSON.stringify(formData),
@@ -39,12 +42,12 @@ form.addEventListener('submit', (ev) => {
         }
     })
     .then(resp => resp.json())
-    .then(({errors, data}) => {
+    .then(({errors, msg}) => {
         if (errors) {
             console.log(errors);
         }
-        if (data) {
-            console.log(data);
+        if (msg) {
+            console.log(msg);
         }
     })
     .catch(err => console.warn(err));
