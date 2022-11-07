@@ -7,7 +7,21 @@ export const newEvent = async(req, res) => {
 }
 
 export const getEvents = async(req, res) => {
-    res.json({msg: 'events...'})
+    let events;
+    
+    const user = req.user;
+    const team = req.team;
+
+    console.log(user.role);
+    
+    if (user.role != 'ADMIN_ROLE' && user.role != 'DESIGNER_ROLE') {
+        events = await Event.findAll({where: { teamId: team.id }});
+        return res.json(events);
+    }
+    
+    events = await Event.findAll();
+
+    res.json(events);
 }
 
 export const createEvent = async(req, res) => {

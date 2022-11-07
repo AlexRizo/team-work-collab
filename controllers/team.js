@@ -4,9 +4,9 @@ import User from '../models/user.js'
 export const getUserTeam = async(req, res) => {
     const { tid, tkn } = req.query;
 
-    const uid = validateJWT(tkn);
+    const user = await validateJWT(tkn);
 
-    console.log(uid);
+    console.log(user.name, '|', user.Team.team_name);
 
     // const tUsers = await User.findAll({where: {teamId: tid}});
 

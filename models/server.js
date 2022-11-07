@@ -37,7 +37,7 @@ class Server {
             users:     '/manage/user',
             auth:      '/auth',
             admin:     '/admin',
-            dashboard: '/dashboard',
+            dashboard: '/home',
             profile:   '/profile',
             team:      '/team',
             teams:     '/manage/team',

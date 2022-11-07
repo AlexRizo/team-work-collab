@@ -25,7 +25,7 @@ const profile = (async() => {
             body: JSON.stringify(formData),
             headers: {
                 'Content-Type': 'application/json',
-                'auth-token': localStorage.getItem('auth-token') || '',
+                'tkn': localStorage.getItem('auth-token') || '',
                 'uid': $user.id
             }
         })
@@ -52,7 +52,7 @@ const profile = (async() => {
         }
 
         const resp = await fetch(window.location + '/user', {
-            headers: { 'auth-token': token }
+            headers: { 'tkn': token }
         });
 
         const { userDB } = await resp.json();

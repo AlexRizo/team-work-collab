@@ -4,7 +4,7 @@ const url = (window.location.hostname.includes('localhost')
 
 const _token = localStorage.getItem('auth-token') || '';
 if (_token && _token.length > 10) {
-    window.location = url + '/dashboard'
+    window.location = url + '/home'
 }
 
 // References HTML;

@@ -2,7 +2,7 @@ import jwt from "jsonwebtoken";
 import User from "../models/user.js";
 
 export const isAdmin = async(req, res, next) => {
-    const token = req.query.token;
+    const token = req.query.tkn;
     if (!token) {
         return res.redirect('back');
     }

@@ -21,6 +21,16 @@ document.addEventListener('DOMContentLoaded', function() {
         center: 'title',
         right: 'dayGridMonth, timeGridWeek, listWeek'
     },
+    events: () => {
+        fetch(window.location.origin + '/event/get', {
+            headers: { 'tkn' : localStorage.getItem('auth-token') }
+        })
+        .then(resp => resp.json())
+        .then((events) => {
+            return {title: 'Tarea', start: '2022-11-06', end: '2022-11-07'}
+        })
+        .catch(err => console.warn(err));
+    },
     dateClick: (info) => {
         openModal();
         date.value = info.dateStr;

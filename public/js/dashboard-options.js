@@ -2,7 +2,7 @@ const url = (window.location.hostname.includes('localhost')
             ? 'http://localhost:8080'
             : 'http://localhost:8080');
 
-const currentPage = (window.location.pathname.includes('dashboard')) ? 'dashboard'
+const currentPage = (window.location.pathname.includes('home')) ? 'dashboard'
                   : (window.location.pathname.includes('event'))   ? 'tarea'
                   : (window.location.pathname.includes('profile'))   ? 'perfil'
                   : (window.location.pathname.includes('team'))   ? 'team'
@@ -44,16 +44,8 @@ menuToggle.onclick = () => {
 
 adminPage.addEventListener('click', () => {
     const token = localStorage.getItem('auth-token');
-    window.location = url + `/admin?token=${token}`;
+    window.location = url + `/admin?tkn=${token}`;
 })
-
-// btnProfile.addEventListener('click', async() => {
-//     const token = localStorage.getItem('auth-token');
-
-//     await fetch(url + '/profile', {
-//         headers: { 'auth-token': token }
-//     })
-// })
 
 const quitSelect = (classes = ['bg-blue-500/13', 'font-semibold']) => {
     btnHome.classList.remove(...classes)
@@ -77,7 +69,7 @@ const validarJWT = async() => {
     }
 
     const resp = await fetch(url + '/auth', {
-        headers: { 'auth-token': token }
+        headers: { 'tkn': token }
     });
 
     const {user:userDB, token:tokenDB, team:teamDB} = await resp.json();
@@ -88,8 +80,6 @@ const validarJWT = async() => {
     btnTeam.href = `${url}/team?tid=${team.id}&tkn=${tokenDB}`;
 
     // InnerText //:
-    // username.innerText = user.name;
-    // (userImg === null ? true : userImg.setAttribute('src', user.img));
     teamName.innerText = team.team_name;
 
     bgImage.setAttribute('style', `background-image: url(${ team.img })`);
@@ -149,7 +139,7 @@ const validarJWT = async() => {
 const connectSocket = async() => {
     socket = io({
         'extraHeaders': {
-            'auth-token': localStorage.getItem('auth-token')
+            'tkn': localStorage.getItem('auth-token')
         }
     });
 

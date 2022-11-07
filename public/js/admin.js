@@ -11,7 +11,7 @@ const formData = {};
 
 socket = io({
     'extraHeaders': {
-        'auth-token': localStorage.getItem('auth-token')
+        'tkn': localStorage.getItem('auth-token')
     }
 });
 
@@ -43,7 +43,7 @@ createUser.addEventListener('click', () => {
         body: JSON.stringify(formData),
         headers: {
             'Content-Type': 'application/json',
-            'auth-token': `${localStorage.getItem('auth-token')}`
+            'tkn': `${localStorage.getItem('auth-token')}`
         }
     })
     .then(resp => resp.json())

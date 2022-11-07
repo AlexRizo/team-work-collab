@@ -3,7 +3,7 @@ import Team from "../models/team.js";
 import User from "../models/user.js";
 
 const mdlwValidateJWT = async(req, res, next) => {
-    const token = req.header('auth-token');
+    const token = req.header('tkn');
 
     if (!token) {
         return res.status(400).json({
