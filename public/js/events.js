@@ -42,9 +42,9 @@ form.addEventListener('submit', (ev) => {
         }
     })
     .then(resp => resp.json())
-    .then(({errors, msg}) => {
-        if (errors) {
-            console.log(errors);
+    .then(({error, msg}) => {
+        if (error) {
+            console.log(error);
         }
         if (msg) {
             console.log(msg);

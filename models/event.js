@@ -16,9 +16,13 @@ Event.init(
             type: new DataTypes.STRING(255),
             allowNull: false,
         },
-        date: {
+        start: {
             type: new DataTypes.STRING(255),
             allowNull: false,
+        },
+        end: {
+            type: new DataTypes.STRING(255),
+            allowNull: true,
         },
         typeId: {
             type: new DataTypes.INTEGER,

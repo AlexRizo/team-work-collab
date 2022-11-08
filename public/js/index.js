@@ -9,8 +9,23 @@ const date = document.getElementById('date');
 
 const btnTeams = document.getElementById('teamPage');
 
+const $events = [];
+
+fetch(`${ window.location.origin }/event/get`, {
+    headers: { 'tkn' : localStorage.getItem('auth-token') }
+})
+.then(resp => resp.json())
+.then((events) => {
+    events.forEach((ev) => {
+        $events.push(ev);
+    });
+})
+.catch(err => console.warn(err));
+
 document.addEventListener('DOMContentLoaded', function() {
     var calendarEl = document.getElementById('calendar');
+
+    setTimeout(() => {
     var calendar = new FullCalendar.Calendar(calendarEl, {
     timeZone: 'local',
     locale: 'es',
@@ -21,15 +36,17 @@ document.addEventListener('DOMContentLoaded', function() {
         center: 'title',
         right: 'dayGridMonth, timeGridWeek, listWeek'
     },
-    events: () => {
-        fetch(window.location.origin + '/event/get', {
-            headers: { 'tkn' : localStorage.getItem('auth-token') }
-        })
-        .then(resp => resp.json())
-        .then((events) => {
-            return {title: 'Tarea', start: '2022-11-06', end: '2022-11-07'}
-        })
-        .catch(err => console.warn(err));
+    contentHeight: 800,
+    events: $events,
+    eventClick: (info) => {
+        console.log(info);
+    },
+    eventMouseEnter: (info) => {
+        info.el.style.cursor = 'pointer'
+        info.el.style.opacity = '80%'
+    },
+    eventMouseLeave: (info) => {
+        info.el.style.opacity = '100%'
     },
     dateClick: (info) => {
         openModal();
@@ -37,10 +54,9 @@ document.addEventListener('DOMContentLoaded', function() {
         console.log(info);
     }
     });
-    calendar.render();
+        calendar.render();
+    }, 80);
 });
-
-
 
 btnCloseModal.addEventListener ('click', () => closeModal());
 
