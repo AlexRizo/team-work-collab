@@ -24,6 +24,22 @@ export const getEvents = async(req, res) => {
     res.json(events);
 }
 
+export const getEvent = async(req, res) => {
+    const { eid } = req.params;
+
+    
+    
+    res.json({
+        msg: 'event',
+        eid
+    });
+}
+
+
+export const eventPage = async(req, res) => {
+    res.render('event');
+}
+
 export const createEvent = async(req, res) => {
     const { id, status, Team } = await validateJWT(req.header('tkn'));
     

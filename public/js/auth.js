@@ -92,7 +92,7 @@ form.addEventListener('submit', (ev) => {
         }
         modal.innerHTML = '';
         localStorage.setItem('auth-token', token);
-        window.location = url + '/dashboard';
+        window.location = url + '/home';
     })
     .catch(err => {
         console.log(err);

@@ -33,7 +33,7 @@ export const teamExist = async(team = '') => {
     });
 
     if (dbTeam) {
-        throw new Error('Ya existe equipo con ese nombre');
+        throw new Error('Ya existe un equipo con ese nombre');
     }
 }
 
