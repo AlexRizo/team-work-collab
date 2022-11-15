@@ -2,7 +2,6 @@ import { Router } from "express";
 import { check } from "express-validator";
 import { newEvent, createEvent, getEvents, getEvent, eventPage } from "../controllers/events.js";
 import { validateEventType, validTime } from "../helpers/db-validations.js";
-import { event } from "../helpers/event-validations.js";
 import { validateJWT } from "../helpers/jwt.js";
 import validateFields from "../middlewares/validate-fields.js";
 import mdlwValidateJWT from '../middlewares/validate-jwt.js';
@@ -15,10 +14,9 @@ router.get('/get', [ mdlwValidateJWT ], getEvents);
 
 router.get('/get-event/:eid', [
     mdlwValidateJWT,
-    event
 ], getEvent);
 
-router.get('/:event', [ ], eventPage);
+router.get('/:event', eventPage);
 
 router.post('/create', [
     check('title', 'El título es obligatorio.').not().isEmpty(),

@@ -1,5 +1,8 @@
 import { Model, DataTypes } from 'sequelize';
 import sequelize from '../db/connection.js';
+import EventType from './event-type.js';
+import Team from './team.js';
+import User from './user.js';
 
 class Event extends Model {
 
@@ -24,7 +27,7 @@ Event.init(
             type: new DataTypes.STRING(255),
             allowNull: true,
         },
-        typeId: {
+        eventTypeId: {
             type: new DataTypes.INTEGER,
             allowNull: false,
         },
@@ -62,5 +65,14 @@ Event.init(
         sequelize, // passing the `sequelize` instance is required
     }
 );
+
+EventType.hasOne(Event);
+Event.belongsTo(EventType);
+
+Team.hasMany(Event, { foreignKey: 'teamId', as: 'team'});
+Event.belongsTo(Team);
+
+User.hasMany(Event, { foreignKey: 'userId', as: 'user'});
+Event.belongsTo(User);
 
 export default Event;

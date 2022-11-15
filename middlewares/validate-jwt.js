@@ -7,7 +7,7 @@ const mdlwValidateJWT = async(req, res, next) => {
 
     if (!token) {
         return res.status(400).json({
-            msg: 'El token es obligatorio.',
+            error: 'El token es obligatorio.',
         });
     }
 
@@ -18,7 +18,7 @@ const mdlwValidateJWT = async(req, res, next) => {
 
         if (!user || !user.status) {
             return res.status(404).json({
-                msg: 'Token inválido'
+                error: 'Token inválido'
             });
         }
 
@@ -26,7 +26,7 @@ const mdlwValidateJWT = async(req, res, next) => {
 
         if (!team) {
             return res.status(404).json({
-                msg: 'Usuario sin equipo'
+                error: 'Usuario sin equipo'
             });
         }
         
@@ -37,7 +37,7 @@ const mdlwValidateJWT = async(req, res, next) => {
     } catch (error) {
         console.log(error);
         res.status(401).json({
-            msg: 'Token inválido'
+            error: 'Token inválido'
         })
     }
 }

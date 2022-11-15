@@ -1,7 +1,7 @@
 const urlParams = new URLSearchParams(window.location.search);
 const eid = urlParams.get('eid');
 
-console.log(eid);
+console.log(`${ window.location.origin }/event/get-event/${ eid }`);
 
 document.addEventListener('DOMContentLoaded', async() => {
     await fetch(`${ window.location.origin }/event/get-event/${ eid }`, {
@@ -10,8 +10,15 @@ document.addEventListener('DOMContentLoaded', async() => {
         }
     })
     .then(resp => resp.json())
-    .then((event) => {
-        return console.log(event);
+    .then(({ event, error }) => {
+        if (error) {
+            // window.location = 'http://localhost:8080/404';
+            console.log(error);
+            return false;
+        }
+        console.log(event);
     })
-    .catch((err) => console.error(err));
+    .catch((error) => {
+        console.error(error);
+    });
 });

@@ -1,5 +1,8 @@
 import { validateJWT } from '../helpers/jwt.js';
+import EventType from '../models/event-type.js';
 import Event from '../models/event.js';
+import Team from '../models/team.js';
+import User from '../models/user.js';
 
 export const newEvent = async(req, res) => {
     
@@ -26,13 +29,45 @@ export const getEvents = async(req, res) => {
 
 export const getEvent = async(req, res) => {
     const { eid } = req.params;
+    const user = req.user;
+    const event = await Event.findByPk(eid, 
+        { 
+            include: [
+                Team,
+                User,
+                EventType
+            ], 
+            attributes: [
+                'id',
+                'title',
+                'start',
+                'end',
+                'description',
+                'time',
+                'location',
+                'result',
+                'color',
+                'teamId'
+            ]
+        });
 
+    if (!user) {
+        return res.status(401).json({ error: 'Error.' });
+    }
     
+    if (!event) {
+        return res.status(404).json({ error: 'El evento no existe.' });
+    }
+
+    if (user.role === 'ADMIN_ROLE') {
+        return res.json({ event });
+    }
+        
+    if (user.teamId != event.teamId) {
+        return res.status(401).json({ error: 'Ha ocurrido un error.' });
+    }
     
-    res.json({
-        msg: 'event',
-        eid
-    });
+    res.json({ event });
 }
 
 

@@ -10,8 +10,6 @@ export const login = async(req, res) => {
             where: { email }
         });
 
-        console.log(user);
-
         if (!user) {
             return res.status(400).json({
                 msg: 'Correo / Contraseña incorrectos. - correo'
