@@ -2,6 +2,7 @@ import { validateJWT } from "../helpers/jwt.js"
 import { Socket } from 'socket.io';
 import User from "../models/user.js";
 import Team from "../models/team.js";
+import Comment from "../models/comment.js";
 
 const getUsers = async() => {
     return await User.findAll({
@@ -9,6 +10,10 @@ const getUsers = async() => {
         order: [['teamId', 'DESC']],
         include: { model: Team },
     });
+}
+
+const getMessages = async(eid) => {
+    return await Comment.findAll({where: {eventId: eid}});
 }
 
 const socketController = async(socket = new Socket(), io) => {
@@ -22,6 +27,20 @@ const socketController = async(socket = new Socket(), io) => {
 
     socket.on('create-user', async() => {
         io.emit('get-users', {users: await getUsers()});
+    });
+
+
+    socket.on('eid', async(eid) => {
+        socket.emit('get-messages', await getMessages(eid));
+        socket.join(`room-${eid}`);
+        console.log(`conectado a room-${eid}`);
+    })
+    
+    socket.on('send-message', async({comm, eid}) => {
+        const { id } = await validateJWT(comm.tkn);
+        comm.userId = id;
+        await Comment.create(comm);
+        io.to(`room-${eid}`).emit('get-messages', await getMessages(comm.eventId))
     });
 }
 

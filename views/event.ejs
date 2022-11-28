@@ -1,29 +1,72 @@
-<section class="w-full bg-white rounded-md shadow-sm p-8 flex flex-col items-center">
-    <div class="w-1/2 flex ">
-        <article class="">
-            <h1 class="text-center px-2 pt-2">Ultima tarea</h1>
-            <div class="flex flex-col border shadow rounded w-full">
-                <h5 class="border-b px-2 py-1 rounded-t text-white" style="background: #2196F3;">Convocatoria: Evento de altar de muertos</h5>
-                <div class="px-4 pb-2">
-                    <div class="text-gray-500 flex flex-row justify-between mb-3">
-                        <span>Publicación</span>
-                        <span>0 comentarios</span>
+<!-- Include stylesheet -->
+<link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
+
+<section class="w-full flex flex-row justify-center">
+    <div class="w-1/3 flex bg-white rounded shadow px-8 py-4 mr-4">
+        <div class="w-full">
+            <div class="flex flex-row items-center justify-between">
+                <h3 id="title">Lorem Ipsum</h3>
+                <h5 id="eventType">Event Type?</h5>
+            </div>
+            <div>
+                <p id="description" class="text-justify">
+                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Tenetur
+                    explicabo quia quam autem officia iste! Animi, exercitationem, 
+                    incidunt molestiae harum facilis voluptatum ea obcaecati labore
+                    eaque recusandae blanditiis, iusto quos!
+                </p>
+                <p id="result", class="text-justify">
+                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Aspernatur,
+                    in? Expedita cupiditate quo ab, quos at officia culpa molestias quasi
+                    nesciunt laborum vel nulla numquam!.
+                </p>
+            </div>
+            <div class="flex flex-row m-0">
+                <h6 class="mr-1">Ubicación:</h6>
+                <p id="location">location</p>
+            </div>
+            <div class="flex flex-row justify-between items-end">
+                <div class="flex flex-col">
+                    <div class="flex flex-row m-0">
+                        <h6 class="m-0 mr-1">Se entrega:</h6>
+                        <p class="m-0" id="start">date</p>
                     </div>
-                    <div>
-                        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Reprehenderit, maiores consequuntur. Consequuntur temporibus ipsa obcaecati laudantium totam saepe incidunt eius fugiat harum molestias, officia quaerat aliquam eligendi maiores ad aperiam?
-                            Tempora, alias eveniet possimus quo molestiae accusantium dolore perferendis et ducimus! Tenetur blanditiis mollitia eos accusamus accusantium, fuga fugit perspiciatis vitae ipsam est quod libero, explicabo dolores? Voluptate, nihil quisquam!</p>
-                        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Accusamus, quidem voluptatem reiciendis nobis, ab totam, possimus explicabo cupiditate distinctio autem perferendis! Nemo reprehenderit repudiandae sapiente tempore odio? Expedita, provident excepturi?</p>
+                    <div class="flex flex-row ">
+                        <h6 class="m-0 mr-1">Hora de entrega:</h6>
+                        <p class="m-0" id="time">hour</p>
                     </div>
-                    <span class="text-gray-500">Publicación en Facebook</span>
                 </div>
-                <div class="border-t px-4 py-1 rounded-b bg-gray-50 flex flex-row justify-between">
-                    <span>Entrega: 16/11/2003</span>
-                    <span>09:12 pm</span>
+                <h6 id="userInfo" class="m-0">User</h6>
+            </div>
+
+            <div>
+                <hr class="bg-black h-px">
+            </div>
+            
+            <div class="w-full flex flex-col">
+                <div>
+                    <h6>Comentarios</h6>
+                </div>
+                <div class="flex items-end h-full flex-col">
+                    <div class="flex flex-row w-full items-start mb-5">
+                        <span class="rounded-full w-8 h-8 bg-green-DEFAULT-500 text-black flex items-center justify-center">
+                            AR
+                        </span>
+                        <!-- Create the editor container -->
+                        <div class="mx-2">
+                            <textarea name="comment" id="comment" rows="3" style="width: 90%;" placeholder="Comentario..." class="border border-gray-300 rounded p-2 mb-4 focus:outline-none focus:ring-1 focus:ring-offset-indigo-200"></textarea>
+                        </div>
+                        <button id="send" class="bg-indigo-500 focus:outline-none focus:ring-1 focus:ring-offset-indigo-200 text-white rounded-md px-2 py-1">Enviar</button>
+                    </div>
+
+                    <div id="comments" class="flex flex-col w-full">
+                        
+                    </div>
                 </div>
             </div>
-        </article>
+        </div>
     </div>
-
 </section>
 
+<script src='http://localhost:8080/socket.io/socket.io.js'></script>
 <script src="../js/event.js"></script>

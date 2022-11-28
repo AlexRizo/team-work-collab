@@ -20,6 +20,7 @@ import profileRoutes from '../routes/profile.js';
 import uploadsRouter from '../routes/uploads.js';
 import adminRoutes from '../routes/admin.js';
 import eventsRoutes from '../routes/events.js';
+import commentsRoutes from '../routes/comments.js';
 
 import socketController from '../sockets/controller.js';
 
@@ -43,6 +44,7 @@ class Server {
             teams:     '/manage/team',
             uploads:   '/manage/uploads',
             events:    '/event',
+            comments:  '/comment'
         };
 
         this.dbConnection();
@@ -85,6 +87,8 @@ class Server {
         this.app.use(this.paths.uploads, uploadsRouter);
 
         this.app.use(this.paths.events, eventsRoutes);
+
+        this.app.use(this.paths.comments, commentsRoutes);
         
         this.app.use(this.paths.auth, authRoutes);
         this.app.use(this.paths.admin, adminRoutes);
