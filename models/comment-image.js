@@ -1,38 +1,32 @@
 import { Model, DataTypes } from 'sequelize';
 import sequelize from '../db/connection.js';
-import User from './user.js';
+import Comment from './comment.js';
 
-class Comment extends Model {
-
-}
+class CommentImage extends Model {}
   
-Comment.init(
+CommentImage.init(
     {
         id: {
         type: DataTypes.INTEGER,
         autoIncrement: true,
         primaryKey: true,
         },
-        comment: {
-            type: DataTypes.STRING(500),
+        image: {
+            type: DataTypes.STRING(255),
             allowNull: false
         },
-        userId: {
-            type: DataTypes.INTEGER,
-            allowNull: false
-        },
-        eventId: {
+        commentId: {
             type: DataTypes.INTEGER,
             allowNull: false
         },
     },
     {
-        tableName: 'comments',
+        tableName: 'comment_images',
         sequelize, // passing the `sequelize` instance is required
     }
 );
 
-User.hasMany(Comment, { foreignKey: 'userId'});
-Comment.belongsTo(User);
+Comment.hasMany(CommentImage, { foreignKey: 'commentId'});
+CommentImage.belongsTo(Comment);
 
-export default Comment;
+export default CommentImage;

@@ -1,6 +1,3 @@
-<!-- Include stylesheet -->
-<link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
-
 <section class="w-full flex flex-row justify-center">
     <div class="w-1/3 flex bg-white rounded shadow px-8 py-4 mr-4">
         <div class="w-full">
@@ -49,14 +46,20 @@
                 </div>
                 <div class="flex items-end h-full flex-col">
                     <div class="flex flex-row w-full items-start mb-5">
-                        <span class="rounded-full w-8 h-8 bg-green-DEFAULT-500 text-black flex items-center justify-center">
+                        <span id="userImage" class="rounded-full min-w-8 min-h-8 text-black flex items-center justify-center">
                             AR
                         </span>
                         <!-- Create the editor container -->
-                        <div class="mx-2">
-                            <textarea name="comment" id="comment" rows="3" style="width: 90%;" placeholder="Comentario..." class="border border-gray-300 rounded p-2 mb-4 focus:outline-none focus:ring-1 focus:ring-offset-indigo-200"></textarea>
+                        <div class="mx-2 w-full">
+                            <div id="toolbar" class="border rounded-t border-gray-300 bg-gray-200 px-1">
+                                <input type="file" name="" id="input-files" hidden>
+                                Subir archivo
+                            </div>
+                            <textarea name="comment" id="comment" rows="3" placeholder="Escribe un comentario..." class="w-full border border-gray-300 rounded-b p-2 mb-4 focus:outline-none focus:ring-1 focus:ring-offset-indigo-200"></textarea>
                         </div>
-                        <button id="send" class="bg-indigo-500 focus:outline-none focus:ring-1 focus:ring-offset-indigo-200 text-white rounded-md px-2 py-1">Enviar</button>
+                        <div>
+                            <button id="send" class="bg-indigo-500 focus:outline-none focus:ring-1 focus:ring-offset-indigo-200 text-white rounded-md px-2 py-1">Enviar</button>
+                        </div>
                     </div>
 
                     <div id="comments" class="flex flex-col w-full">

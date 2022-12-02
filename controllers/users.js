@@ -15,6 +15,19 @@ cloudinary.config({
 export const createUser = async(req, res) => {
     const {name, email, password, role, teamId} = req.body;
     // const { tempFilePath } = req.files;
+    const colors = [
+        '#BDC3C7',
+        '#3498DB',
+        '#1ABC9C',
+        '#22E6D6',
+        '#22E67A',
+        '#F1C40F',
+        '#E67E22',
+        '#E64522',
+        '#E62256'
+    ]
+
+    const color = Math.floor(Math.random()*9);
 
     try {
         const hash = encrypt(password);
@@ -25,6 +38,7 @@ export const createUser = async(req, res) => {
             password: hash,
             role,
             status: true,
+            color: colors[color],
             teamId
         });
 

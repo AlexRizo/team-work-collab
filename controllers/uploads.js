@@ -2,6 +2,7 @@ import { v2 as cloudinary } from 'cloudinary';
 import Team from '../models/team.js';
 import User from '../models/user.js';
 import * as dotenv from 'dotenv'
+import CommentImage from '../models/comment-image.js';
 
 dotenv.config()
 
@@ -61,4 +62,23 @@ export const manageImageCloudinary = async(req, res) => {
     await model.save();
 
     res.json(model.img);
+}
+
+export const testController = async(req, res) => {
+    // console.log(req.body);
+    // console.log(req.files);
+
+    const { cid } = req.body;
+    const { tempFilePath } = req.files.files;
+
+    const { secure_url } = await cloudinary.uploader.upload(tempFilePath);
+
+    const data = {
+        commentId: cid,
+        image: secure_url
+    }
+
+    const image = await CommentImage.create(data);
+
+    res.json(image)
 }
