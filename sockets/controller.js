@@ -3,6 +3,7 @@ import { Socket } from 'socket.io';
 import User from "../models/user.js";
 import Team from "../models/team.js";
 import Comment from "../models/comment.js";
+import CommentImage from "../models/comment-image.js";
 
 const getUsers = async() => {
     return await User.findAll({
@@ -13,23 +14,10 @@ const getUsers = async() => {
 }
 
 const getMessages = async(eid) => {
-    return await Comment.findAll({where: {eventId: eid}, include: { model: User }});
-}
+    const messages = await Comment.findAll({where: {eventId: eid}, include: { model: User }});
+    const images = await CommentImage.findAll( { where: { eventId: eid } });
 
-const uploadFiles = async(file, cid) => {
-    const formData = new FormData();
-    formData.append('cid', cid);
-    formData.append('files', file);
-
-    console.log(file);
-    
-    await fetch('http://localhost:8080/manage/uploads/test', {
-        method: 'PUT',
-        body: formData
-    })
-    .then((res => {
-        console.log(res);
-    }))
+    return {messages, images}
 }
 
 const socketController = async(socket = new Socket(), io) => {
@@ -58,12 +46,21 @@ const socketController = async(socket = new Socket(), io) => {
     
     socket.on('send-message', async({comm, file, eid}) => {
         const { id } = await validateJWT(comm.tkn);
+        let $comm;
+
         comm.userId = id;
-        const $comm = await Comment.create(comm);
-        io.to(`room-${eid}`).emit('get-messages', await getMessages(comm.eventId));
+        
         if(file) {
-            socket.emit('file-included', $comm);
+            comm.fileIncluded = true;
+            $comm = await Comment.create(comm);
+            socket.emit('file-included', $comm.id);
+        } else {
+            await Comment.create(comm);
         }
+        
+        setTimeout(async() => {
+            io.to(`room-${eid}`).emit('get-messages', await getMessages(comm.eventId));
+        }, 760)
     });
 }
 

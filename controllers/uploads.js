@@ -3,6 +3,7 @@ import Team from '../models/team.js';
 import User from '../models/user.js';
 import * as dotenv from 'dotenv'
 import CommentImage from '../models/comment-image.js';
+import { validateJWT } from '../helpers/jwt.js';
 
 dotenv.config()
 
@@ -68,17 +69,27 @@ export const testController = async(req, res) => {
     // console.log(req.body);
     // console.log(req.files);
 
-    const { cid } = req.body;
+    const { cid, uid, eid } = req.body;
     const { tempFilePath } = req.files.files;
 
     const { secure_url } = await cloudinary.uploader.upload(tempFilePath);
 
-    const data = {
-        commentId: cid,
-        image: secure_url
+    const { id:userId } = await validateJWT(uid);
+
+    if (!userId) {
+        res.status(500).json({error: 'Ha ocurrido un error, Inténtelo de nuevo.'})
     }
+
+    const data = {
+        url: secure_url,
+        userId,
+        eventId: eid,
+        commentId: cid
+    }
+
+    console.log(data);
 
     const image = await CommentImage.create(data);
 
-    res.json(image)
+    res.json(image);
 }

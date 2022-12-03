@@ -48,19 +48,38 @@ const getUserImage = (name) => {
     return resultado;
 }
 
-
-const messages = (messages = []) => {
+const messages = ({messages, images}) => {
     let com = '';
     let initials = ''
-
-    if (!messages) {
-        console.log('error');
-    }
+    let $img = '';
 
     messages.forEach(mess => {
         initials = getUserImage(mess.User.name);
 
-        com += `
+        if (mess.fileIncluded) {            
+            images.forEach(img => {
+                if (mess.id === img.commentId) {
+                    $img = img.url
+                }
+            });
+                    
+            com += `
+                <div class="flex flex-col w-full items-start mb-5">
+                    <div class="flex items-center">
+                        <span class="rounded-full min-w-8 min-h-8 text-black flex items-center justify-center" style="background: ${ mess.User.color };">
+                            ${ initials }
+                        </span>
+                        <p class="m-0 ml-2">${ mess.User.name }</p>
+                    </div>
+                    <p class="mx-2 w-full pr-5 mt-2">
+                        ${ mess.comment }
+                        <img src="${ $img }" style="max-width: 20%;" />
+                    </p>
+                    <div class="bg-gray-200 w-full" style="height: 1px;"></div>
+                </div>
+            `;
+        } else {
+            com += `
             <div class="flex flex-col w-full items-start mb-5">
                 <div class="flex items-center">
                     <span class="rounded-full min-w-8 min-h-8 text-black flex items-center justify-center" style="background: ${ mess.User.color };">
@@ -74,6 +93,7 @@ const messages = (messages = []) => {
                 <div class="bg-gray-200 w-full" style="height: 1px;"></div>
             </div>
         `;
+        }
     });
 
     comments.innerHTML = com;
@@ -84,15 +104,15 @@ socket = io();
 
 const socketConnect = async() => {
     socket.emit('conn', {eid, tkn: localStorage.getItem('auth-token')});
-
-    socket.on('get-messages', messages);
-
-    socket.on('file-included', ({ id }) => {
+    
+    socket.on('file-included', async(cid) => {
         const formData = new FormData();
-        formData.append('cid', id);
+        formData.append('cid', cid);
+        formData.append('uid', localStorage.getItem('auth-token'));
+        formData.append('eid', eid)
         formData.append('files', file);
         
-        fetch('http://localhost:8080/manage/uploads/test', {
+        await fetch('http://localhost:8080/manage/uploads/test', {
             method: 'POST',
             body: formData
         })
@@ -100,6 +120,9 @@ const socketConnect = async() => {
             console.log(res);
         }))
     });
+
+    socket.on('get-messages', messages);
+
 
     socket.on('user', (payload) => {
         userImage.setAttribute('style', `background: ${ payload.color }`);

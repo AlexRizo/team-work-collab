@@ -25,6 +25,11 @@ Comment.init(
             type: DataTypes.INTEGER,
             allowNull: false
         },
+        fileIncluded: {
+            type: DataTypes.BOOLEAN,
+            allowNull: true,
+            defaultValue: false
+        }
     },
     {
         tableName: 'comments',

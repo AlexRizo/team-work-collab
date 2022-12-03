@@ -1,6 +1,8 @@
 import { Model, DataTypes } from 'sequelize';
 import sequelize from '../db/connection.js';
 import Comment from './comment.js';
+import Event from './event.js';
+import User from './user.js';
 
 class CommentImage extends Model {}
   
@@ -11,7 +13,7 @@ CommentImage.init(
         autoIncrement: true,
         primaryKey: true,
         },
-        image: {
+        url: {
             type: DataTypes.STRING(255),
             allowNull: false
         },
@@ -19,14 +21,28 @@ CommentImage.init(
             type: DataTypes.INTEGER,
             allowNull: false
         },
+        userId: {
+            type: DataTypes.INTEGER,
+            allowNull: false
+        },
+        eventId: {
+            type: DataTypes.INTEGER,
+            allowNull: false
+        },
     },
     {
-        tableName: 'comment_images',
+        tableName: 'comm_images',
         sequelize, // passing the `sequelize` instance is required
     }
 );
 
 Comment.hasMany(CommentImage, { foreignKey: 'commentId'});
 CommentImage.belongsTo(Comment);
+
+User.hasMany(CommentImage, { foreignKey: 'userId'});
+CommentImage.belongsTo(User);
+
+Event.hasMany(CommentImage, { foreignKey: 'eventId'});
+CommentImage.belongsTo(Event);
 
 export default CommentImage;
