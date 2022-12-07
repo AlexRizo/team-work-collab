@@ -59,7 +59,7 @@ export const getEvent = async(req, res) => {
         return res.status(404).json({ error: 'El evento no existe.' });
     }
 
-    if (user.role === 'ADMIN_ROLE') {
+    if (user.role === 'ADMIN_ROLE' || user.role === 'DESIGNER_ROLE') {
         return res.json({ event });
     }
         
@@ -86,7 +86,9 @@ export const createEvent = async(req, res) => {
 
     data.teamId = Team.id;
     data.userId = id;
-    data.typeId = parseInt(type);
+    data.eventTypeId = parseInt(type);
+
+    console.log(data);
     
     try {
         await Event.create(data);

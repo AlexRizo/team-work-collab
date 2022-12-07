@@ -33,6 +33,8 @@ form.addEventListener('submit', (ev) => {
 
     formData.color = color.value;
 
+    console.log(formData);
+
     fetch(url + '/event/create', {
         method: 'POST',
         body: JSON.stringify(formData),

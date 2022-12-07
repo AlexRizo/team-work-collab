@@ -66,30 +66,39 @@ export const manageImageCloudinary = async(req, res) => {
 }
 
 export const testController = async(req, res) => {
-    // console.log(req.body);
-    // console.log(req.files);
-
     const { cid, uid, eid } = req.body;
-    const { tempFilePath } = req.files.files;
 
-    const { secure_url } = await cloudinary.uploader.upload(tempFilePath);
+    let filePath;
+    let resCloud;
+    let image;
 
-    const { id:userId } = await validateJWT(uid);
+    try {        
+        const { id:userId } = await validateJWT(uid);
 
-    if (!userId) {
-        res.status(500).json({error: 'Ha ocurrido un error, Inténtelo de nuevo.'})
+        if (!userId) {
+            res.status(500).json({error: 'Ha ocurrido un error, Inténtelo de nuevo.'})
+        }
+    
+        const files = Object.values(req.files)
+
+        
+        
+        files.forEach(async(file) => {
+            filePath = file.tempFilePath;
+            resCloud = await cloudinary.uploader.upload(filePath);
+    
+            const data = {
+                url: resCloud.secure_url,
+                userId,
+                eventId: eid,
+                commentId: cid
+            }
+    
+            image = await CommentImage.create(data);
+        });
+
+        res.json(image);
+    } catch (error) {
+        res.status(500).json({error: `Ha ocurrido un error.`})
     }
-
-    const data = {
-        url: secure_url,
-        userId,
-        eventId: eid,
-        commentId: cid
-    }
-
-    console.log(data);
-
-    const image = await CommentImage.create(data);
-
-    res.json(image);
 }

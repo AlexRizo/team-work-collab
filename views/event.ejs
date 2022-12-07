@@ -1,5 +1,5 @@
 <section class="w-full flex flex-row justify-center">
-    <div class="w-auto flex bg-white rounded shadow px-8 py-4 mr-4">
+    <div class="max-w-180 flex bg-white rounded shadow px-8 py-4 mr-4">
         <div class="w-full">
             <div class="flex flex-row items-center justify-between">
                 <h3 id="title">Lorem Ipsum</h3>
@@ -45,24 +45,25 @@
                     <h6>Comentarios</h6>
                 </div>
                 <div class="flex items-end h-full flex-col">
-                    <div class="flex flex-row w-full items-start mb-5">
+                    <form class="flex flex-row w-full items-start mb-5">
                         <span id="userImage" class="rounded-full min-w-8 min-h-8 text-black flex items-center justify-center">
                             AR
                         </span>
                         <!-- Create the editor container -->
                         <div class="mx-2 w-full">
                             <div id="toolbar" class="border rounded-t border-gray-300 bg-gray-200 px-1">
-                                <input type="file" name="" id="input-files" hidden>
+                                <input type="file" name="" id="input-files" hidden multiple>
                                 Subir archivo
                             </div>
                             <textarea name="comment" id="comment" rows="3" placeholder="Escribe un comentario..." class="w-full border border-gray-300 rounded-b p-2 mb-4 focus:outline-none focus:ring-1 focus:ring-offset-indigo-200"></textarea>
                         </div>
                         <div>
-                            <button id="send" class="bg-indigo-500 focus:outline-none focus:ring-1 focus:ring-offset-indigo-200 text-white rounded-md px-2 py-1">Enviar</button>
+                            <input type="reset" value="Enviar" id="send" class="bg-indigo-500 focus:outline-none focus:ring-1 focus:ring-offset-indigo-200 text-white rounded-md px-2 py-1">
                         </div>
-                    </div>
+                    </form>
 
                     <div id="comments" class="flex flex-col w-full">
+                        
                         
                     </div>
                 </div>

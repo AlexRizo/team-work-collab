@@ -24,7 +24,7 @@ const months = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 
 const days = ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'];
 
 let $user;
-let file;
+let file = [];
 
 const $getMonth = (m) => {
     return months[m];
@@ -53,16 +53,17 @@ const messages = ({messages, images}) => {
     let initials = ''
     let $img = '';
 
-    messages.forEach(mess => {
+    messages.reverse().forEach(mess => {
         initials = getUserImage(mess.User.name);
 
-        if (mess.fileIncluded) {            
+        if (mess.fileIncluded) {
+            $img = ''
             images.forEach(img => {
                 if (mess.id === img.commentId) {
-                    $img = img.url
+                    $img += `<img src="${ img.url }" style="max-width: 20%; margin-right: 10px; margin-top: 5px;"/>`
                 }
             });
-                    
+
             com += `
                 <div class="flex flex-col w-full items-start mb-5">
                     <div class="flex items-center">
@@ -73,7 +74,9 @@ const messages = ({messages, images}) => {
                     </div>
                     <p class="mx-2 w-full pr-5 mt-2">
                         ${ mess.comment }
-                        <img src="${ $img }" style="max-width: 20%;" />
+                        <div class="flex w-full flex-wrap">
+                            ${ $img }
+                        </div>
                     </p>
                     <div class="bg-gray-200 w-full" style="height: 1px;"></div>
                 </div>
@@ -110,15 +113,20 @@ const socketConnect = async() => {
         formData.append('cid', cid);
         formData.append('uid', localStorage.getItem('auth-token'));
         formData.append('eid', eid)
-        formData.append('files', file);
+        for (let i = 0; i < file.length; i++) {
+            formData.append(`file${i}`, file[i]);
+        }
         
         await fetch('http://localhost:8080/manage/uploads/test', {
             method: 'POST',
             body: formData
-        })
+        }, console.warn('Enviando mensaje...'))
         .then((res => {
+            console.warn('Mensaje enviado correctamente');
             console.log(res);
+            file = [];
         }))
+        .catch((error) => console.error(error))
     });
 
     socket.on('get-messages', messages);
@@ -147,8 +155,6 @@ const $getTime = (time) => {
 
     return { hours, minutes, ampm };
 }
-
-
 
 document.addEventListener('DOMContentLoaded', async() => {
     const event = await fetch(`${ window.location.origin }/event/get-event/${ eid }`, {
@@ -198,7 +204,11 @@ btnSend.addEventListener('click', () => {
         eventId: parseInt(eid)
     }
 
-    socket.emit('send-message', {comm:formData, file, eid});
+    if (file[0]) {
+        socket.emit('send-message', {comm:formData, file: true, eid});
+    } else {
+        socket.emit('send-message', {comm:formData, file: false, eid});
+    }
     comment.value = '';
 });
 
@@ -207,6 +217,7 @@ toolbar.addEventListener('click', () => {
 });
 
 inputFile.onchange = ({ target }) => {
-    file = target.files[0];
-    console.log(file);
+    for (const img of target.files) {
+        file.push(img)
+    }
 }

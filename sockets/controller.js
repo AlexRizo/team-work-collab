@@ -13,11 +13,16 @@ const getUsers = async() => {
     });
 }
 
-const getMessages = async(eid) => {
-    const messages = await Comment.findAll({where: {eventId: eid}, include: { model: User }});
+const getMessages = async(eid, limit = 15) => {
+    const messages = await Comment.findAll({
+        where: { eventId: eid },
+        include: { model: User },
+        order: [['id', 'DESC']],
+    });
+    
     const images = await CommentImage.findAll( { where: { eventId: eid } });
 
-    return {messages, images}
+    return { messages, images }
 }
 
 const socketController = async(socket = new Socket(), io) => {
@@ -29,7 +34,7 @@ const socketController = async(socket = new Socket(), io) => {
 
     setTimeout(async() => {
         socket.emit('get-users', {users: await getUsers()});
-    }, 90)
+    }, 90);
 
     socket.on('create-user', async() => {
         io.emit('get-users', {users: await getUsers()});
@@ -42,25 +47,28 @@ const socketController = async(socket = new Socket(), io) => {
         socket.emit('user', await validateJWT(tkn));
         console.log(`conectado a { room-${eid} }`);
         
-    })
+    });
     
-    socket.on('send-message', async({comm, file, eid}) => {
+    socket.on('send-message', async({ comm, file, eid }) => {
         const { id } = await validateJWT(comm.tkn);
         let $comm;
 
         comm.userId = id;
-        
+
         if(file) {
             comm.fileIncluded = true;
             $comm = await Comment.create(comm);
+
             socket.emit('file-included', $comm.id);
+
+            setTimeout(async() => {
+                io.to(`room-${eid}`).emit('get-messages', await getMessages(comm.eventId));
+            }, 2000);
         } else {
             await Comment.create(comm);
-        }
-        
-        setTimeout(async() => {
+            
             io.to(`room-${eid}`).emit('get-messages', await getMessages(comm.eventId));
-        }, 760)
+        }
     });
 }
 

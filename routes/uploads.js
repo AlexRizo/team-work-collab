@@ -13,6 +13,11 @@ router.put('/:model/:id', [
     validateFields
 ], manageImageCloudinary);
 
-router.post('/test', testController)
+router.post('/test', [
+    check('uid', 'Campo obligatorio').not().isEmpty(),
+    check('eid', 'Campo obligatorio').not().isEmpty(),
+    check('cid', 'Campo obligatorio').not().isEmpty(),
+    validateFields
+], testController)
 
 export default router;
