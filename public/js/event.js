@@ -25,6 +25,7 @@ const days = ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', '
 
 let $user;
 let file = [];
+let $time = 1000;
 
 const $getMonth = (m) => {
     return months[m];
@@ -41,14 +42,15 @@ const getUserImage = (name) => {
     if (total > 2) {
         total = 2;
     }
+
     let resultado = "";
  
-    for (var i = 0; i < total; resultado += array[i][0], i++);
+    for (let i = 0; i < total; resultado += array[i][0], i++);
 
     return resultado;
 }
 
-const messages = ({messages, images}) => {
+const messages = ({ messages, images }) => {
     let com = '';
     let initials = ''
     let $img = '';
@@ -100,6 +102,7 @@ const messages = ({messages, images}) => {
     });
 
     comments.innerHTML = com;
+    comments.scrollTo(0, comments.scrollHeight);
 }
 
 // SOCKET -->
@@ -117,12 +120,11 @@ const socketConnect = async() => {
             formData.append(`file${i}`, file[i]);
         }
         
-        await fetch('http://localhost:8080/manage/uploads/test', {
+        await fetch('http://localhost:8080/manage/uploads/upload-cwi', {
             method: 'POST',
             body: formData
-        }, console.warn('Enviando mensaje...'))
+        })
         .then((res => {
-            console.warn('Mensaje enviado correctamente');
             console.log(res);
             file = [];
         }))
@@ -190,7 +192,6 @@ document.addEventListener('DOMContentLoaded', async() => {
     time.innerText = (!event.time ? 'Libre' : `${ hours }:${ minutes } ${ ampm }`);
     userInfo.innerText = `${ event.User.name } | ${ event.Team.team_name }`;
     await socketConnect();
-
 });
 
 btnSend.addEventListener('click', () => {
@@ -205,10 +206,14 @@ btnSend.addEventListener('click', () => {
     }
 
     if (file[0]) {
-        socket.emit('send-message', {comm:formData, file: true, eid});
+        $time *= file.length;
+        socket.emit('send-message', {comm:formData, file: true, eid, $time});
+        console.log($time);
     } else {
         socket.emit('send-message', {comm:formData, file: false, eid});
     }
+
+    $time = 1000;
     comment.value = '';
 });
 

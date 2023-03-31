@@ -49,7 +49,7 @@ const socketController = async(socket = new Socket(), io) => {
         
     });
     
-    socket.on('send-message', async({ comm, file, eid }) => {
+    socket.on('send-message', async({ comm, file, eid, $time }) => {
         const { id } = await validateJWT(comm.tkn);
         let $comm;
 
@@ -61,12 +61,14 @@ const socketController = async(socket = new Socket(), io) => {
 
             socket.emit('file-included', $comm.id);
 
+            console.log($time);
+            
             setTimeout(async() => {
                 io.to(`room-${eid}`).emit('get-messages', await getMessages(comm.eventId));
-            }, 2000);
+            }, $time);
         } else {
             await Comment.create(comm);
-            
+
             io.to(`room-${eid}`).emit('get-messages', await getMessages(comm.eventId));
         }
     });

@@ -65,7 +65,7 @@ export const manageImageCloudinary = async(req, res) => {
     res.json(model.img);
 }
 
-export const testController = async(req, res) => {
+export const uploadImages = async(req, res) => {
     const { cid, uid, eid } = req.body;
 
     let filePath;
@@ -81,8 +81,6 @@ export const testController = async(req, res) => {
     
         const files = Object.values(req.files)
 
-        
-        
         files.forEach(async(file) => {
             filePath = file.tempFilePath;
             resCloud = await cloudinary.uploader.upload(filePath);

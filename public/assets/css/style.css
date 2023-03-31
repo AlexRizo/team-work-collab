@@ -1,0 +1,9 @@
+.scroll-bar::-webkit-scrollbar {
+    background: none;
+    width: 10px;
+}
+
+.scroll-bar::-webkit-scrollbar-thumb {
+    background: gray;
+    border-radius: 5px;
+}
